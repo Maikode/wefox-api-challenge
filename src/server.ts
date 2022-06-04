@@ -1,4 +1,5 @@
 import express from 'express';
+import { registerAddressRoutes } from './entrypoints/routes/address_routes';
 import { registerUserRoutes } from './entrypoints/routes/user_routes';
 
 export const expressApp = express();
@@ -8,3 +9,4 @@ expressApp.use(express.json());
 
 // Register  API routes
 registerUserRoutes(expressApp);
+registerAddressRoutes(expressApp);
