@@ -1,6 +1,6 @@
 import { Express } from 'express';
-import { loginController } from '../controllers/login.controller';
+import { loginController } from '../controllers/login_controller';
 
 export const registerUserRoutes = (application: Express) => {
-    application.use('/login', loginController);
+    application.post('/login', loginController);
 };

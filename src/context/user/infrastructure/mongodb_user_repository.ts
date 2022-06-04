@@ -17,8 +17,6 @@ export class MongoDBUserRepository implements UserRepository {
 
     async findOne(email: string): Promise<User | null> {
         const user = (await userModel.findOne({ email: email })) || null;
-        return user
-            ? new User(user._id.toString(), user.email, user.password)
-            : null;
+        return user ? new User(user._id.toString(), user.email, user.password) : null;
     }
 }
