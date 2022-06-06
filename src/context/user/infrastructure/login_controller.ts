@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { UserCredentialsError } from '../../context/user/domain/exceptions/user_credentials_error';
-import { loginUseCase } from '../di/container';
+import { loginUseCase } from '../../shared/infrastructure/di/container';
+import { UserCredentialsError } from '../domain/exceptions/user_credentials_error';
 
 export const loginController = async (req: Request, res: Response) => {
     const { email, password } = req.body;
@@ -9,7 +9,9 @@ export const loginController = async (req: Request, res: Response) => {
         res.status(200).send(result).json();
     } catch (error) {
         if (error instanceof UserCredentialsError) {
-            res.status(401).send({ error: error.error_message() }).json();
+            res.status(401).send({ error: error.message }).json();
+        } else {
+            res.status(500).send('Internal server Error');
         }
     }
 };

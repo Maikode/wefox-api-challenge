@@ -44,6 +44,9 @@ jspm_packages/
 #MongoDB volume
 mongodb/
 
+#Tests reports
+tests/reports
+
 # TypeScript v1 declaration files
 typings/
 

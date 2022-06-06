@@ -19,9 +19,11 @@ export class TimerWeatherRepository implements WeatherRepository {
             output: 'json'
         };
         const response = await axios.get(url, { params: query_params });
+
         if (response.status !== 200 || !response.data.dataseries) {
             return null;
         }
+
         const data = response.data.dataseries[0];
         const cloud_cover = data.cloudcover as number;
         return new Weather(data.temp2m, this.cloud_cover_values[cloud_cover - 1], data.weather, data.rh2m);

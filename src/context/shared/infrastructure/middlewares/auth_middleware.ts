@@ -9,7 +9,6 @@ export const authMiddelware = async (req: Request, res: Response, next: NextFunc
         const token = authorization.split('Bearer ')[1];
         try {
             const payload = verify(token, process.env.JWT_SECRET as string) as { exp: number };
-            console.log(payload);
             next();
         } catch (error) {
             res.status(401).send({ message: "'Not authorized. Invalid token'" });

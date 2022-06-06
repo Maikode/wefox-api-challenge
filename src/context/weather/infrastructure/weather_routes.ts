@@ -1,6 +1,6 @@
 import { Express } from 'express';
-import { getWeatherController } from '../controllers/get_weather_controller';
-import { authMiddelware } from '../middlewares/auth_middleware';
+import { authMiddelware } from '../../shared/infrastructure/middlewares/auth_middleware';
+import { getWeatherController } from './get_weather_controller';
 
 export const registerWeatherRoutes = (application: Express) => {
     application.get('/weather', authMiddelware, getWeatherController);
