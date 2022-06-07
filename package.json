@@ -6,7 +6,7 @@
     "scripts": {
         "test": "set ENV=dev&& npm run docker:start && jest --coverage",
         "start:dev": "set ENV=dev&& npm run docker:start && ts-node-dev ./src/index.ts",
-        "start:prod": "set ENV=prod&& node ./dist/src/index.js",
+        "start:prod": "set ENV=prod&& npm run build && node ./dist/src/index.js",
         "docker:start": "docker-compose up -d",
         "docker:stop": "docker-compose stop",
         "build": "rimraf ./dist && tsc",
