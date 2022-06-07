@@ -66,7 +66,10 @@ describe('TEST E2E: happy path', () => {
 
         //STEP 3: get current weather with previous validated address
         const response_weather = await axios.get(`http://localhost:${PORT}/weather`, {
-            data: address_data,
+            params: {
+                lat: address_data.lat,
+                lon: address_data.lon
+            },
             headers: {
                 Authorization: `Bearer ${access_token}`
             }
