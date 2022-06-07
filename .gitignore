@@ -41,6 +41,8 @@ build/Release
 node_modules/
 jspm_packages/
 
+#MongoDB volume
+mongodb_volume
 
 #Tests reports
 tests/reports
