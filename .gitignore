@@ -42,7 +42,7 @@ node_modules/
 jspm_packages/
 
 #MongoDB volume
-mongodb/
+mongodb_volume/
 
 #Tests reports
 tests/reports
