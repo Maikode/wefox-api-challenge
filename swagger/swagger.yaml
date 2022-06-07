@@ -1,0 +1,254 @@
+openapi: 3.0.0
+
+info:
+    description: WEFOX API REST CHALLENGE
+    version: 1.0.0
+    title: Wefox API Challenge
+    termsOfService: http://swagger.io/terms/
+    contact:
+        email: mrobles25@gmail.com
+tags:
+    - name: User
+      description: Everything about users
+    - name: Address
+      description: Everything about address
+    - name: Weather
+      description: Everything about weather
+
+paths:
+    /login:
+        post:
+            tags:
+                - User
+            summary: Auth an user with credentials to get access token
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/auth'
+            responses:
+                '201':
+                    description: 'Login succesfull'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/auth_token'
+                '401':
+                    description: 'Invalid credentials'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/invalid_credentials'
+                '500':
+                    description: 'Internal Server Error'
+
+    /address:
+        get:
+            tags:
+                - Address
+            summary: Validate an address
+            parameters:
+                - name: street
+                  in: query
+                  required: true
+                  schema:
+                      type: string
+                      example: 'Evergreen Terrace'
+                - name: streetNumber
+                  in: query
+                  required: true
+                  schema:
+                      type: string
+                      example: 742
+                - name: town
+                  in: query
+                  required: true
+                  schema:
+                      type: string
+                      example: Springfield
+                - name: postalCode
+                  in: query
+                  required: true
+                  schema:
+                      type: string
+                      example: 12345
+                - name: country
+                  in: query
+                  required: true
+                  schema:
+                      type: string
+                      example: United States
+            responses:
+                '200':
+                    description: ''
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/address'
+                '400':
+                    description: 'sdfsdf'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/bad_address'
+                '404':
+                    description: 'sdfsdf'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/address_not_found'
+                '500':
+                    description: 'Internal Server Error'
+    /weather:
+        get:
+            security:
+                - oauth2: []
+            tags:
+                - Weather
+            summary: Get current weather from latitute and longitude address
+            parameters:
+                - name: lat
+                  in: query
+                  required: true
+                  schema:
+                      type: number
+                      format: float
+                      example: 38.5546768
+                - name: lon
+                  in: query
+                  required: true
+                  schema:
+                      type: number
+                      format: float
+                      example: -6.1882934
+            responses:
+                '200':
+                    description: Invalid input
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/weather'
+                '400':
+                    description: Invalid input
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/bad_address_coords'
+                '401':
+                    description: Invalid input
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/not_authorized'
+                '404':
+                    description: Weather not found
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/weather_not_found'
+                '500':
+                    description: 'Internal Server Error'
+
+components:
+    schemas:
+        auth:
+            type: object
+            properties:
+                email:
+                    type: string
+                    example: user@example.com
+                password:
+                    type: string
+                    example: password1234
+        address:
+            type: object
+            properties:
+                street:
+                    type: string
+                streetNumber:
+                    type: string
+                town:
+                    type: string
+                postalCode:
+                    type: string
+                country:
+                    type: string
+                lat:
+                    type: number
+                    format: float
+                lon:
+                    type: number
+                    format: float
+        weather:
+            type: object
+            properties:
+                temperature_celsius:
+                    type: number
+                    format: int32
+                    example: 28
+                cloud_cover:
+                    type: string
+                    example: '0%-6%'
+                weather:
+                    type: string
+                    example: 'cloudy-day'
+                humidity:
+                    type: string
+                    example: '60%'
+
+        auth_token:
+            type: object
+            properties:
+                access_token:
+                    type: string
+                    example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyODSF4sdgTY4Nzc0ZGY4YyIsImVtYWlsIjoiZW1haWxAZXhhbXBsZS5jb20iLCJpYXQiOjE2NTQ1MTExNzH7B7hMTY1NDU0NzE3NX0.F4L6TkS_PboK9mfuHL-9Yn17IfjMDYiH0LENsagBg64'
+                expires_in:
+                    type: string
+                    example: '10h'
+
+        invalid_credentials:
+            type: object
+            properties:
+                error:
+                    type: string
+                    example: 'Credentials are invalid'
+
+        bad_address:
+            type: object
+            properties:
+                error:
+                    type: string
+                    example: 'There are missing or bad parameters to validate address'
+
+        address_not_found:
+            type: object
+            properties:
+                error:
+                    type: string
+                    example: 'Invalid address'
+
+        weather_not_found:
+            type: object
+            properties:
+                error:
+                    type: string
+                    example: 'There is not weather for these coordinates'
+
+        not_authorized:
+            type: object
+            properties:
+                error:
+                    type: string
+                    example: "'Not authorized. Invalid token'"
+        bad_address_coords:
+            type: object
+            properties:
+                error:
+                    type: string
+                    example: 'Invalid lat-lon coordinates format'
+
+    securitySchemes:
+        oauth2:
+            type: http
+            scheme: bearer
+            bearerFormat: JWT
