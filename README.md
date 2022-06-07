@@ -122,38 +122,17 @@ Following the specifications of the challenge, the technologies used are as foll
 
 -   **Docker**
 
-    When you run the container locally **for the first time**, the database will be empty, so you will have to create a collection of `users` and insert a sample document to be able to call the `/login` service correctly.
+    You need to have the docker service installed in order to be able to raise the container from the docker-compose command for the connection to the MongoDB database.
 
-    Follow these steps to insert such a test document:
+    The commands to be able to start and stop the container are
 
     1. Run the docker container with:
         ```sh
         npm run docker:start
         ```
-    2. Connect with a mongo client ( like MongoDB Compass ) with this URL:
+    2. Stopd e docker container with:
         ```sh
-        mongodb://root:admin@127.0.0.1:27017
-        ```
-    3. Open `wefox` database and create a collection named `users`.
-
-    4. Add a new document for an `user`, u can copy this example:
-
-        ```sh
-            {
-                "email": "email@example.com",
-                "password": "$2b$10$JFT6.c15TaHoVomhS4tPR.kz2M8I0122b874/NWUmQGeu0xZVWium"
-            }
-        ```
-
-        Keep in mind the password is hashed with the [`bcrypt`](https://www.npmjs.com/package/bcrypt) library to add a further level of database security.
-        This hash is the result of encrypting the plain text password with value: ` password`.
-        So, the user credentials are:
-
-        ```sh
-            {
-                "email": "email@example.com",
-                "password": "password"
-            }
+        npm run docker:stop
         ```
 
 ### Installation
