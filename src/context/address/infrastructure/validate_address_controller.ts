@@ -5,7 +5,7 @@ import { AddressNotFoundError } from '../domain/exceptions/address_not_found';
 export const validateAddressController = async (req: Request, res: Response) => {
     const { street, streetNumber, town, postalCode, country } = req.query;
     if (!checkBadParams(street, streetNumber, town, postalCode, country)) {
-        res.status(400).send('There are missing or bad parameters to validate address');
+        res.status(400).send({ error: 'There are missing or bad parameters to validate address' });
     } else {
         try {
             const address = await validateAddressUseCase.validate(street, streetNumber, town, postalCode, country);
