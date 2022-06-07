@@ -24,7 +24,7 @@ export class NominatimAPIRepository implements AddressRepository {
         });
         if (response.data.length > 0 && response.status === 200) {
             const address = response.data[0];
-            return new Address(street, streetNumber, town, postalCode, country, address.lat, address.lon);
+            return new Address(street, streetNumber, town, postalCode, country, Number(address.lat), Number(address.lon));
         } else {
             return null;
         }

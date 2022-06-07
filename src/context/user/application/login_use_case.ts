@@ -28,7 +28,7 @@ export class LoginUseCase {
                 email: email
             },
             secret,
-            { expiresIn: '1m' }
+            { expiresIn: expires }
         );
         return {
             access_token: token,
